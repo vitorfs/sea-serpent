@@ -78,7 +78,7 @@ class SubmarinoSerpent(SeaSerpent):
             self.links = temp_list
 
             for product_key in products:
-                if not Product.objects.filter(product_key=product_key):
+                if not Product.objects.filter(product_key=product_key, company=self.company):
                     Product(product_key=product_key, company=self.company).save()
         except Exception, e:
             pass
@@ -157,7 +157,7 @@ class AmericanasSerpent(SeaSerpent):
             self.links = temp_list
 
             for product_key in products:
-                if not Product.objects.filter(product_key=product_key):
+                if not Product.objects.filter(product_key=product_key, company=self.company):
                     Product(product_key=product_key, company=self.company).save()
         except Exception, e:
             pass

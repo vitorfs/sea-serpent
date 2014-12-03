@@ -6,7 +6,7 @@ class Company(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
-    product_key = models.CharField(max_length=255, unique=True)
+    product_key = models.CharField(max_length=255)
     price = models.FloatField(null=True)
     last_price = models.FloatField(null=True)
     price_difference = models.FloatField(null=True)
