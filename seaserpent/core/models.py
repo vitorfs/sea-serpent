@@ -17,14 +17,20 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     visited_at = models.DateTimeField(auto_now_add=True)
 
-    def display_price(self):
+    def _format(self, price):
         formatted_price = u''
         if self.price:
             try:
-                formatted_price = u'R$ {:.2f}'.format(self.price)
+                formatted_price = u'R$ {:.2f}'.format(price)
             except:
                 pass
         return formatted_price
+
+    def display_price(self):
+        return self._format(self.price)
+
+    def display_price_difference(self):
+        return self._format(self.price_difference)
 
     def get_history(self):
         history = ProductPriceHistory.objects.filter(product=self).order_by('-date')

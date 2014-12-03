@@ -31,3 +31,11 @@ td, th {
 .positive {
   background-color: #f2dede;
 }
+
+.pagination {
+  text-align: center;
+}
+
+.pagination li {
+  display: inline;
+}
