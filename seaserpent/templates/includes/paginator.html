@@ -1,0 +1,19 @@
+<ul class="pagination">
+  {% if paginator.has_previous %}
+    <li><a href="?page={{ paginator.previous_page_number }}&order={{ order }}">&laquo;</a></li>
+  {% else %}
+    <li class="disabled"><span>&laquo;</span></li>
+  {% endif %}
+  {% for i in paginator.paginator.page_range %}
+    {% if paginator.number == i %}
+      <li class="active"><span>{{ i }}</span></li>
+    {% else %}
+      <li><a href="?page={{ i }}&order={{ order }}">{{ i }}</a></li>
+    {% endif %}
+  {% endfor %}
+  {% if paginator.has_next %}
+    <li><a href="?page={{ paginator.next_page_number }}&order={{ order }}">&raquo;</a></li>
+  {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
+  {% endif %}
+</ul>

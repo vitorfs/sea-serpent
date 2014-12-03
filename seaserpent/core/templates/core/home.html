@@ -1,36 +1,20 @@
 {% extends 'base.html' %}
 
 {% block main %}
-  <ul class="pagination">
-    {% if products.has_previous %}
-      <li><a href="?page={{ products.previous_page_number }}&order={{ order }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in products.paginator.page_range %}
-      {% if products.number == i %}
-        <li class="active"><span>{{ i }}</span></li>
-      {% else %}
-        <li><a href="?page={{ i }}&order={{ order }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if products.has_next %}
-      <li><a href="?page={{ products.next_page_number }}&order={{ order }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
   
+  {% include 'includes/paginator.html' with paginator=products %}
+
   <table>
     <thead>
       <tr>
         <th><a href="?order={% if order == 'product_key' %}-{% endif %}product_key">Código</a></th>
-        <th style="width: 250px"><a href="?order={% if order == 'name' %}-{% endif %}name">Nome</a></th>
+        <th><a href="?order={% if order == 'name' %}-{% endif %}name">Nome</a></th>
         <th><a href="?order={% if order == 'price' %}-{% endif %}price">Preço</a></th>
         <th><a href="?order={% if order == 'price_difference' %}-{% endif %}price_difference">Variação</a></th>
         <th><a href="?order={% if order == 'updated_at' %}-{% endif %}updated_at">Atualizado em</a></th>
         <th><a href="?order={% if order == 'visited_at' %}-{% endif %}visited_at">Visitado em</a></th>
         <th><a href="?order={% if order == 'status' %}-{% endif %}status">Status</a></th>
+        <th><a href="?order={% if order == 'status' %}-{% endif %}company__url">Site</a></th>
         <th></th>
       </tr>
     </thead>
@@ -54,30 +38,13 @@
           <td>{{ product.updated_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.visited_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.status }}</td>
+          <td><a href="{{ product.company.url }}" target="_blank">{{ product.company.name }}</a></td>
           <td><a href="{% url 'price_history' product.product_key %}">Histórico</a></td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <ul class="pagination">
-    {% if products.has_previous %}
-      <li><a href="?page={{ products.previous_page_number }}&order={{ order }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in products.paginator.page_range %}
-      {% if products.number == i %}
-        <li class="active"><span>{{ i }}</span></li>
-      {% else %}
-        <li><a href="?page={{ i }}&order={{ order }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if products.has_next %}
-      <li><a href="?page={{ products.next_page_number }}&order={{ order }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
+  {% include 'includes/paginator.html' with paginator=products %}
 
 {% endblock main %}
