@@ -1,36 +1,32 @@
 {% extends 'base.html' %}
 
 {% block main %}
-  <table border="1" style="margin: 0 auto">
+  <table>
     <thead>
       <tr>
         <th>Código</th>
         <th style="width: 250px">Nome</th>
         <th>Preço</th>
         <th>Atualizado em</th>
+        <th>Visitado em</th>
         <th>Status</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       {% for product in products %}
+        {% if product.get_last_price == 0.0 %}
         <tr>
+        {% elif product.get_last_price > 0.0 %}
+        <tr class="positive">
+        {% elif product.get_last_price < 0.0 %}
+        <tr class="negative">
+        {% endif %}
           <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
           <td>{{ product.name }}</td>
-          {% if product.get_last_price == 0.0 %}
-
-            <td>{{ product.display_price }}</td>
-
-          {% elif product.get_last_price > 0.0 %}
-
-            <td style="background: #E93743">{{ product.display_price }} ({{ product.get_last_price }})</td>
-
-          {% elif product.get_last_price < 0.0 %}
-
-            <td style="background: #21C25C">{{ product.display_price }} ({{ product.get_last_price }})</td>
-
-          {% endif %}
+          <td>{{ product.display_price }}</td>
           <td>{{ product.updated_at|date:"d/m/Y H:i:s" }}</td>
+          <td>{{ product.visited_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.status }}</td>
           <td><a href="{% url 'price_history' product.product_key %}">Histórico</a></td>
         </tr>

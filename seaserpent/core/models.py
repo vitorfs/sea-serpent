@@ -8,6 +8,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     product_key = models.CharField(max_length=255, unique=True)
     price = models.FloatField(null=True)
+    last_price = models.FloatField(null=True)
+    price_difference = models.FloatField(null=True)
     company = models.ForeignKey(Company)
     status = models.CharField(max_length=20, default='novo')
     is_active = models.BooleanField(default=True)

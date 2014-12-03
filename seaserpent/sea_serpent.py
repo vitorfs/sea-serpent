@@ -35,7 +35,7 @@ class SeaSerpent:
             response = urllib2.urlopen(req)
             return response.read()
         except Exception, e:
-            with open('log.txt', 'a') as f:
+            with open('error.log', 'a') as f:
                 f.write(u'Exception: {0}\nUrl: {1}\n\n'.format(e, url))
             raise e
 
@@ -66,13 +66,14 @@ class SeaSerpent:
                 if not Product.objects.filter(product_key=product_key):
                     Product(product_key=product_key, company=self.company).save()
         except Exception, e:
-            print e
             pass
 
     def lunge(self, product):
-        url = '{0}/produto/{1}'.format(self.base_url, product.product_key)
+
+        product.visited_at = datetime.datetime.now()
 
         try:
+            url = '{0}/produto/{1}'.format(self.base_url, product.product_key)
             html = self._request(url)
             lines = html.split('\n')
             name = ''
@@ -89,10 +90,6 @@ class SeaSerpent:
                 if 'unavailable-product' in line:
                     em_estoque = False
 
-            print product.product_key + ' ' + name + ' ' + price
-
-            product.visited_at = datetime.datetime.now()
-
             if name != '':
                 product.name = name
                 if em_estoque:
@@ -107,8 +104,10 @@ class SeaSerpent:
                         product.updated_at = datetime.datetime.now()
                         ProductPriceHistory(product=product, price=price).save()
 
-                    if str(product.price) != str(price):
+                    if product.price != price:
+                        product.last_price = product.price
                         product.price = price
+                        product.price_difference = product.price - product.last_price
                         product.updated_at = datetime.datetime.now()
                         ProductPriceHistory(product=product, price=price).save()
                 else:
@@ -117,14 +116,11 @@ class SeaSerpent:
                 product.status = 'nao_encontrado'
             
         except Exception, e:
-            print e
-            product.status = 'nao_encontrado'
-            product.updated_at = datetime.datetime.now()
-            product.visited_at = datetime.datetime.now()
+            product.status = 'erro'
 
         product.save()
 
-    def collect_products(self):
+    def collect_data(self):
         products = Product.objects.filter(status='novo')
         for product in products:
             self.lunge(product)

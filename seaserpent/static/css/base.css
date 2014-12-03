@@ -1,0 +1,33 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  color: #333;
+  margin: 0;
+  font-size: 1.4em;
+  background-color: #f9f9f9;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #457aef;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}
+
+.negative {
+  background-color: #f2dede;
+}
+
+.positive {
+  background: #dff0d8;
+}
