@@ -1,20 +1,26 @@
 {% extends 'base.html' %}
 
 {% block main %}
+
+  <form method="get" class="search">
+    <input type="text" name="search" value="{% if search %}{{ search }}{% endif %}">
+    <button type="submit">Buscar</button>
+    <a href="/">Limpar Busca</a>
+  </form>
   
-  {% include 'includes/paginator.html' with paginator=products %}
+  {% include 'includes/paginator.html' with paginator=products order=order search=search %}
 
   <table>
     <thead>
       <tr>
-        <th><a href="?order={% if order == 'product_key' %}-{% endif %}product_key">Código</a></th>
-        <th><a href="?order={% if order == 'name' %}-{% endif %}name">Nome</a></th>
-        <th><a href="?order={% if order == 'price' %}-{% endif %}price">Preço</a></th>
-        <th><a href="?order={% if order == 'price_difference' %}-{% endif %}price_difference">Variação</a></th>
-        <th><a href="?order={% if order == 'updated_at' %}-{% endif %}updated_at">Atualizado em</a></th>
-        <th><a href="?order={% if order == 'visited_at' %}-{% endif %}visited_at">Visitado em</a></th>
-        <th><a href="?order={% if order == 'status' %}-{% endif %}status">Status</a></th>
-        <th><a href="?order={% if order == 'status' %}-{% endif %}company__url">Site</a></th>
+        <th><a href="?order={% if order == 'product_key' %}-{% endif %}product_key{% if search %}&search={{ search }}{% endif %}">Código</a></th>
+        <th><a href="?order={% if order == 'name' %}-{% endif %}name{% if search %}&search={{ search }}{% endif %}">Nome</a></th>
+        <th><a href="?order={% if order == 'price' %}-{% endif %}price{% if search %}&search={{ search }}{% endif %}">Preço</a></th>
+        <th><a href="?order={% if order == 'price_difference' %}-{% endif %}price_difference{% if search %}&search={{ search }}{% endif %}">Variação</a></th>
+        <th><a href="?order={% if order == 'updated_at' %}-{% endif %}updated_at{% if search %}&search={{ search }}{% endif %}">Atualizado em</a></th>
+        <th><a href="?order={% if order == 'visited_at' %}-{% endif %}visited_at{% if search %}&search={{ search }}{% endif %}">Visitado em</a></th>
+        <th><a href="?order={% if order == 'status' %}-{% endif %}status{% if search %}&search={{ search }}{% endif %}">Status</a></th>
+        <th><a href="?order={% if order == 'status' %}-{% endif %}company__url{% if search %}&search={{ search }}{% endif %}">Site</a></th>
         <th></th>
       </tr>
     </thead>
@@ -45,6 +51,6 @@
     </tbody>
   </table>
 
-  {% include 'includes/paginator.html' with paginator=products %}
+  {% include 'includes/paginator.html' with paginator=products order=order search=search %}
 
 {% endblock main %}
