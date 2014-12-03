@@ -1,0 +1,36 @@
+Exception: HTTP Error 500: Internal Server Error
+Url: http://submarino.com.br/produto/8068356
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://submarino.com.br/produto/114615724
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://submarino.com.br/produto/8266697
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://submarino.com.br/produto/8266532
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365042/moda/feminino/roupas/vestidos/marca-284-angel-checklist-m.+officer-mandi
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365037/moda/feminino/roupas/calcas/tamanho-g/marca-284
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365540/moda/feminino/roupas/camisetas-e-blusas/batas-e-tunicas/cor-bege-cinza+chumbo-lush-militar-terracota?skucolor=bege-cinza chumbo-lush-militar-terracota
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365041/moda/feminino/roupas/shorts/cor-amarelo+saara-azul-azul+royal-bege-bege+mescla-marinho-militar-roxo-roxo+jatoba-unico/tamanho-38?skucolor=azul-amarelo saara-azul royal-bege-militar-roxo-roxo jatoba-unico
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365041/moda/feminino/roupas/shorts/cor-amarelo+saara-azul+royal-bege-bege+mescla-marinho-militar-roxo-roxo+jatoba-unico-vermelho/tamanho-38?skucolor=vermelho-amarelo saara-azul royal-bege-militar-roxo-roxo jatoba-unico
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365074/moda/feminino/roupas/meias/cor-amarelo++laranja-bege-branco++amarelo++azul-branco++preto++cinza-branco++roxo++azul-creme-estampadesenhopintura-laranja++lilas++verde-laranja++preto++azul-marrom+claro-militar-off+shell-off+white++roxo++verde-preto++amarelo++azul-preto++branco++cinza-preto++cinza++branco-preto++off+white-rosa++amarelo++verde-salmao++branco++cinza-terracota-verde++laranja++preto-verde++preto++branco-verde+claro-verde+esmeralda?skucolor=salmao / branco / cinza-amarelo / laranja-bege-branco / amarelo / azul-branco / preto / cinza-branco / roxo / azul-creme-laranja / lilas / verde-laranja / preto / azul-marrom claro-off white / roxo / verde-preto / amarelo / azul-preto / branco / cinza-preto / cinza / branco-preto / off white-rosa / amarelo / verde-verde / laranja / preto-verde / preto / branco
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/368985/moda/feminino/roupas/cardigan/cor-bege-cobra-militar-terracota/tamanho-p-36/marca-m.officer?skucolor=bege-cobra-militar-terracota
+
+Exception: HTTP Error 500: Internal Server Error
+Url: http://www.submarino.com.br/sublinha/365338/moda/masculino/acessorios/oculos-de-sol/cor-amarl+c+prel.+cinz+fl+laran-azul-azul++dourado-azul+transl+degr+pre+foscl+cinz-bordo+brilhante-marrom++azul-marrom+brilho++verde-multicor-prata++prata++prata-preto-transparente-verde-violeta?skucolor=amarl c/ pre/l. cinz fl laran-azul-azul / dourado-azul transl degr pre fosc/l cinz-bordo brilhante-marrom / azul-marrom brilho / verde-multicor-prata / prata / prata-preto-transparente-verde-violeta
+

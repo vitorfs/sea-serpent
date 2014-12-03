@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<a href="/">Voltar</a>
+<h2>{{ product.name }}</h2>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Preço</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for history in product.get_history %}
+      <tr>
+        <td>{{ history.date|date:"d/m/Y H:i:s" }}</td>
+        <td>{{ history.display_price }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock main %}
