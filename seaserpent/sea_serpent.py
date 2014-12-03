@@ -121,7 +121,7 @@ class SeaSerpent:
         product.save()
 
     def collect_data(self):
-        products = Product.objects.filter(status='novo')
+        products = Product.objects.all()
         for product in products:
             self.lunge(product)
 
