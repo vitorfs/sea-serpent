@@ -25,9 +25,9 @@ td, th {
 }
 
 .negative {
-  background-color: #f2dede;
+  background: #dff0d8;
 }
 
 .positive {
-  background: #dff0d8;
+  background-color: #f2dede;
 }

@@ -26,17 +26,10 @@ class Product(models.Model):
                 pass
         return formatted_price
 
-    def get_last_price(self):
-        history = ProductPriceHistory.objects.filter(product=self).exclude(price=self.price).order_by('-date')
-        diff = 0.0
-        if history:
-            last_price = history[0].price
-            diff = self.price - last_price
-        return diff
-
     def get_history(self):
         history = ProductPriceHistory.objects.filter(product=self).order_by('-date')
         return history
+        
 
 class ProductPriceHistory(models.Model):
     product = models.ForeignKey(Product)
