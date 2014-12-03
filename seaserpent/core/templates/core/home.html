@@ -16,13 +16,17 @@
     </thead>
     <tbody>
       {% for product in products %}
-        {% if product.price_difference > 0.0 %}
-        <tr class="positive">
-        {% elif product.price_difference < 0.0 %}
-        <tr class="negative">
+        {% if product.price_difference %}
+          {% if product.price_difference > 0.0 %}
+          <tr class="positive">
+          {% elif product.price_difference < 0.0 %}
+          <tr class="negative">
+          {% else %}
+            <tr>
+          {% endif %}
         {% else %}
-        <tr>
-        {% endif %}
+          <tr>
+      {% endif %}
           <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
           <td>{{ product.name }}</td>
           <td>{{ product.display_price }}</td>
