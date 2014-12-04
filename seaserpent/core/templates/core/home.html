@@ -7,7 +7,7 @@
     <button type="submit">Buscar</button>
     <a href="/">Limpar Busca</a>
   </form>
-  
+
   {% include 'includes/paginator.html' with paginator=products order=order search=search %}
 
   <table>
@@ -44,8 +44,8 @@
           <td>{{ product.updated_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.visited_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.status }}</td>
-          <td><a href="{{ product.company.url }}" target="_blank">{{ product.company.name }}</a></td>
-          <td><a href="{% url 'price_history' product.product_key %}">Histórico</a></td>
+          <td>{{ product.company.name }}</td>
+          <td><a href="{% url 'price_history' product.company.name product.product_key %}">Histórico</a></td>
         </tr>
       {% endfor %}
     </tbody>

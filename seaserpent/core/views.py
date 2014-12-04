@@ -24,6 +24,6 @@ def home(request):
     return render(request, 'core/home.html', { 'products': products, 'order': order, 'search': search })
     
 
-def price_history(request, product_key):
-    product = get_object_or_404(Product, product_key=product_key)
+def price_history(request, company, product_key):
+    product = get_object_or_404(Product, product_key=product_key, company__name=company)
     return render(request, 'core/price_history.html', { 'product': product })

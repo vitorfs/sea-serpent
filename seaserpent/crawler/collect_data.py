@@ -10,7 +10,7 @@ import django
 django.setup()
 
 import threading
-from crawler import SubmarinoSerpent, AmericanasSerpent
+from crawler import SubmarinoSerpent, AmericanasSerpent, ShoptimeSerpent
 
 class CollectData(threading.Thread):
     
@@ -23,9 +23,10 @@ class CollectData(threading.Thread):
     def run(self):
         self.serpent.collect_data()
 
-
 americanas = CollectData(AmericanasSerpent())
 submarino = CollectData(SubmarinoSerpent())
+shoptime = CollectData(ShoptimeSerpent())
 
 americanas.start()
 submarino.start()
+shoptime.start()
