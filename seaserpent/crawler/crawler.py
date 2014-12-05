@@ -94,7 +94,6 @@ class SeaSerpent(object):
             products = Product.objects.filter(company=self.company).order_by('-visited_at')
             for product in products:
                 if product.id % total == number: # multi thread varrendo um lote de produtos
-                    print u'{0} crawler {1}'.format(self.company.name, number)
                     self.lunge(product)
 
 
