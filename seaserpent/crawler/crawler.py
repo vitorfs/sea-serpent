@@ -54,7 +54,6 @@ class SeaSerpent(object):
     def discover_products(self):
         self.links.append(self.base_url)
         while self.links:
-            print self.company.name
             link = self.links.pop()
             self.discover(link)
 
@@ -90,11 +89,13 @@ class SeaSerpent(object):
     def lunge(self, product):
         return
 
-    def collect_data(self):
+    def collect_data(self, number = 0, total = 1):
         while True:
-            products = Product.objects.filter(company=self.company)
+            products = Product.objects.filter(company=self.company).order_by('-visited_at')
             for product in products:
-                self.lunge(product)
+                if product.id % total == number: # multi thread varrendo um lote de produtos
+                    print u'{0} crawler {1}'.format(self.company.name, number)
+                    self.lunge(product)
 
 
 class SubmarinoSerpent(SeaSerpent):
@@ -116,7 +117,7 @@ class SubmarinoSerpent(SeaSerpent):
                     splited_line = line.split(' href="http://www.submarino.com.br/produto/')
                     product = splited_line[1].partition("/")[0].partition("?")[0]
                     products.append(product)
-            self._remove_visited_links()
+            #self._remove_visited_links()
             self._catalog_products(products)
         except Exception, e:
             pass
@@ -161,7 +162,7 @@ class AmericanasSerpent(SeaSerpent):
                     splited_line = line.split(' href="http://www.americanas.com.br/produto/')
                     product = splited_line[1].partition("/")[0].partition("?")[0]
                     products.append(product)
-            self._remove_visited_links()
+            #self._remove_visited_links()
             self._catalog_products(products)
         except Exception, e:
             pass
@@ -206,7 +207,7 @@ class ShoptimeSerpent(SeaSerpent):
                     splited_line = line.split(' href="http://www.shoptime.com.br/produto/')
                     product = splited_line[1].partition("/")[0].partition("?")[0]
                     products.append(product)
-            self._remove_visited_links()
+            #self._remove_visited_links()
             self._catalog_products(products)
         except Exception, e:
             pass

@@ -15,18 +15,26 @@ from crawler import SubmarinoSerpent, AmericanasSerpent, ShoptimeSerpent
 class CollectData(threading.Thread):
     
     serpent = None
+    number = 0
+    total = 1
 
-    def __init__(self, serpent):
+    def __init__(self, serpent, number = 0, total = 1):
         super(CollectData, self).__init__()
         self.serpent = serpent
+        self.number = number
+        self.total = total
 
     def run(self):
-        self.serpent.collect_data()
+        self.serpent.collect_data(self.number, self.total)
 
-americanas = CollectData(AmericanasSerpent())
-submarino = CollectData(SubmarinoSerpent())
-shoptime = CollectData(ShoptimeSerpent())
+CollectData(AmericanasSerpent(), 0, 3).start()
+CollectData(AmericanasSerpent(), 1, 3).start()
+CollectData(AmericanasSerpent(), 2, 3).start()
 
-americanas.start()
-submarino.start()
-shoptime.start()
+CollectData(SubmarinoSerpent(), 0, 3).start()
+CollectData(SubmarinoSerpent(), 1, 3).start()
+CollectData(SubmarinoSerpent(), 2, 3).start()
+
+CollectData(ShoptimeSerpent(), 0, 3).start()
+CollectData(ShoptimeSerpent(), 1, 3).start()
+CollectData(ShoptimeSerpent(), 2, 3).start()
