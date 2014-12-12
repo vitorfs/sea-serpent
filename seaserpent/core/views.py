@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from seaserpent.core.models import Product
+from seaserpent.core.models import Product, ProductPriceHistory
 
 def home(request):
     search = request.GET.get('search')
     order = request.GET.get('order')
     if not order: order = ''
-    if order.replace('-', '') not in ('product_key', 'name', 'price', 'updated_at', 'visited_at', 'status', 'price_difference', ):
+    if order.replace('-', '') not in ('product_key', 'name', 'price', 'updated_at', 'visited_at', 'status', 'price_difference', 'price_changes'):
         order = '-updated_at'
     products = Product.objects.exclude(status='novo').exclude(Q(price__isnull=True) | Q(price=0.0))
     if search:
@@ -26,4 +26,5 @@ def home(request):
 
 def price_history(request, company, product_key):
     product = get_object_or_404(Product, product_key=product_key, company__name=company)
-    return render(request, 'core/price_history.html', { 'product': product })
+    chart_data = ProductPriceHistory.objects.filter(product=product).order_by('date')
+    return render(request, 'core/price_history.html', { 'product': product, 'chart_data': chart_data })

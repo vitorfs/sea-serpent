@@ -17,6 +17,7 @@
         <th><a href="?order={% if order == 'name' %}-{% endif %}name{% if search %}&search={{ search }}{% endif %}">Nome</a></th>
         <th><a href="?order={% if order == 'price' %}-{% endif %}price{% if search %}&search={{ search }}{% endif %}">Preço</a></th>
         <th><a href="?order={% if order == 'price_difference' %}-{% endif %}price_difference{% if search %}&search={{ search }}{% endif %}">Variação</a></th>
+        <th><a href="?order={% if order == 'price_changes' %}-{% endif %}price_changes{% if search %}&search={{ search }}{% endif %}">Variacoes</a></th>
         <th><a href="?order={% if order == 'updated_at' %}-{% endif %}updated_at{% if search %}&search={{ search }}{% endif %}">Atualizado em</a></th>
         <th><a href="?order={% if order == 'visited_at' %}-{% endif %}visited_at{% if search %}&search={{ search }}{% endif %}">Visitado em</a></th>
         <th><a href="?order={% if order == 'status' %}-{% endif %}status{% if search %}&search={{ search }}{% endif %}">Status</a></th>
@@ -41,6 +42,7 @@
           <td>{{ product.name }}</td>
           <td>{{ product.display_price }}</td>
           <td>{{ product.display_price_difference }}</td>
+          <td>{{ product.price_changes }}</td>
           <td>{{ product.updated_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.visited_at|date:"d/m/Y H:i:s" }}</td>
           <td>{{ product.status }}</td>

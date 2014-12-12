@@ -31,8 +31,8 @@
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
       ['Data', 'Valor']
-      {% for history in product.get_history %}
-        ,['{{ history.date|date:"d/m" }}',  {{ history.price }}]
+      {% for data in chart_data %}
+        ,['{{ data.date|date:"d/m" }}',  {{ data.price }}]
       {% endfor %}
     ]);
 

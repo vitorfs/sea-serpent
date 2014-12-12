@@ -16,6 +16,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     visited_at = models.DateTimeField(auto_now_add=True)
+    price_changes = models.IntegerField(default=0)
 
     def _format(self, price):
         formatted_price = u''
