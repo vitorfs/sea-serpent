@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
-<a href="/">Voltar</a>
-<h2>{{ product.name }}</h2>
+<a href="/" style="display: block; text-align: center">Voltar</a>
+<h2 style="text-align: center">{{ product.name }}</h2>
 
 <table border="1">
   <thead>
@@ -21,4 +20,39 @@
     {% endfor %}
   </tbody>
 </table>
+
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+
+<div id="price_chart" style="width: 800px; margin: 20px auto"></div>
+
+<script type="text/javascript">
+  google.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Data', 'Valor']
+      {% for history in product.get_history %}
+        ,['{{ history.date|date:"d/m" }}',  {{ history.price }}]
+      {% endfor %}
+    ]);
+
+    var formatter = new google.visualization.NumberFormat({
+      prefix: 'R$'
+    });
+
+    formatter.format(data, 1);
+
+    var options = {
+      backgroundColor: '#F9F9F9',
+      title: 'Histórico de Preços',
+      hAxis: {title: 'Preço por Data',  titleTextStyle: { color: '#333'} },
+      vAxis: {format:'R$###,###,###.00'}
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('price_chart'));
+
+    chart.draw(data, options);
+  }
+</script>
+
 {% endblock main %}
