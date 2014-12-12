@@ -117,7 +117,7 @@ class SubmarinoSerpent(SeaSerpent):
                     splited_line = line.split(' href="http://www.submarino.com.br/produto/')
                     product = splited_line[1].partition("/")[0].partition("?")[0]
                     products.append(product)
-            #self._remove_visited_links()
+            self._remove_visited_links()
             self._catalog_products(products)
         except Exception, e:
             pass
@@ -162,7 +162,7 @@ class AmericanasSerpent(SeaSerpent):
                     splited_line = line.split(' href="http://www.americanas.com.br/produto/')
                     product = splited_line[1].partition("/")[0].partition("?")[0]
                     products.append(product)
-            #self._remove_visited_links()
+            self._remove_visited_links()
             self._catalog_products(products)
         except Exception, e:
             pass
@@ -207,7 +207,7 @@ class ShoptimeSerpent(SeaSerpent):
                     splited_line = line.split(' href="http://www.shoptime.com.br/produto/')
                     product = splited_line[1].partition("/")[0].partition("?")[0]
                     products.append(product)
-            #self._remove_visited_links()
+            self._remove_visited_links()
             self._catalog_products(products)
         except Exception, e:
             pass
