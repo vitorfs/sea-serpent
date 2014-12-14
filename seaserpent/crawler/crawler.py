@@ -109,6 +109,11 @@ class SeaSerpent(object):
             for product in products:
                 if product.id % total == number: # multi thread varrendo um lote de produtos
                     self.lunge(product)
+                    try:
+                        self.discover('{0}/produto/{1}'.format(self.base_url, product.product_key))
+                        self.visited_links = []
+                    except Exception, e:
+                        pass
 
 
 class SubmarinoSerpent(SeaSerpent):
