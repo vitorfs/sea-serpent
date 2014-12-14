@@ -17,6 +17,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     visited_at = models.DateTimeField(auto_now_add=True)
     price_changes = models.IntegerField(default=0)
+    price_percentage_change = models.FloatField(default=0.0)
 
     def _format(self, price):
         formatted_price = u''
@@ -32,6 +33,10 @@ class Product(models.Model):
 
     def display_price_difference(self):
         return self._format(self.price_difference)
+
+    def display_price_percentage_change(self):
+        value = self.price_percentage_change * 100
+        return u'{:.2f}%'.format(value)
 
     def get_history(self):
         history = ProductPriceHistory.objects.filter(product=self).order_by('-date')

@@ -7,7 +7,7 @@ def home(request):
     search = request.GET.get('search')
     order = request.GET.get('order')
     if not order: order = ''
-    if order.replace('-', '') not in ('product_key', 'name', 'price', 'updated_at', 'visited_at', 'status', 'price_difference', 'price_changes'):
+    if order.replace('-', '') not in ('product_key', 'name', 'price', 'updated_at', 'visited_at', 'status', 'price_difference', 'price_changes', 'price_percentage_change'):
         order = '-updated_at'
     products = Product.objects.exclude(status='novo').exclude(Q(price__isnull=True) | Q(price=0.0))
     if search:
