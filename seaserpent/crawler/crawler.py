@@ -79,6 +79,19 @@ class SeaSerpent(object):
                         product.updated_at = datetime.datetime.now()
                         ProductPriceHistory(product=product, price=price).save()
                         product.price_changes = product.price_changes + 1
+
+                        if product.price != None and product.last_price != None and product.price != 0 and product.last_price != 0:
+                            if product.last_price < product.price:
+                                product.price_percentage_change = product.last_price / product.price
+                                product.price_percentage_change = 1.0 - product.price_percentage_change
+                            elif product.last_price > product.price:
+                                product.price_percentage_change = product.price / product.last_price
+                                product.price_percentage_change = product.price_percentage_change - 1.0
+                            else:
+                                product.price_percentage_change = 0.0
+                        else:
+                            product.price_percentage_change = 0.0
+                            
                 else:
                     product.status = 'esgotado'
             else:
