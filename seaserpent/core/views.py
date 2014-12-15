@@ -39,4 +39,10 @@ def home(request):
 def price_history(request, company, product_key):
     product = get_object_or_404(Product, product_key=product_key, company__name=company)
     chart_data = ProductPriceHistory.objects.filter(product=product).order_by('date')
-    return render(request, 'core/price_history.html', { 'product': product, 'chart_data': chart_data })
+    lowest_price = ProductPriceHistory.objects.filter(product=product).order_by('price')[0]
+    highest_price = ProductPriceHistory.objects.filter(product=product).order_by('-price')[0]
+    return render(request, 'core/price_history.html', { 'product': product, 
+        'chart_data': chart_data,
+        'lowest_price': lowest_price,
+        'highest_price': highest_price
+        })

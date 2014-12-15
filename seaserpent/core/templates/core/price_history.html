@@ -4,27 +4,48 @@
 <a href="/" style="display: block; text-align: center">Voltar</a>
 <h2 style="text-align: center">{{ product.name }}</h2>
 
-<table border="1">
+<table style="margin-bottom: 20px">
   <thead>
     <tr>
-      <th>Data</th>
-      <th>Preço</th>
+      <th class="negative">Menor Preço</th>
+      <th class="positive">Maior Preço</th>
     </tr>
   </thead>
   <tbody>
-    {% for history in product.get_history %}
-      <tr>
-        <td>{{ history.date|date:"d/m/Y H:i:s" }}</td>
-        <td>{{ history.display_price }}</td>
-      </tr>
-    {% endfor %}
+    <tr>
+      <td class="negative" style="text-align: center">{{ lowest_price.display_price }}</td>
+      <td class="positive" style="text-align: center">{{ highest_price.display_price }}</td>
+    </tr>
   </tbody>
 </table>
 
+<table>
+  <tr>
+    <td valign="top">
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Preço</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for history in product.get_history %}
+            <tr>
+              <td>{{ history.date|date:"d/m/Y H:i:s" }}</td>
+              <td>{{ history.display_price }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </td>
+    <td valign="top">
+      <div id="price_chart" style="width: 800px; margin: 20px auto"></div>
+    </td>
+  </tr>
+</table>
+
 <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
-
-<div id="price_chart" style="width: 800px; margin: 20px auto"></div>
-
 <script type="text/javascript">
   google.setOnLoadCallback(drawChart);
 
