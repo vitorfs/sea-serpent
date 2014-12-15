@@ -2,8 +2,15 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from seaserpent.core.models import Product, ProductPriceHistory
-
+import datetime
 def home(request):
+
+    today = datetime.datetime.today()
+    today = datetime.datetime(today.year, today.month, today.day)
+
+    positive_changes_today = Product.objects.filter(updated_at__gt=today).exclude(Q(price__isnull=True) | Q(price=0.0)).order_by('price_percentage_change')[:10]
+    negative_changes_today = Product.objects.filter(updated_at__gt=today).exclude(Q(price__isnull=True) | Q(price=0.0)).order_by('-price_percentage_change')[:10]
+
     search = request.GET.get('search')
     order = request.GET.get('order')
     if not order: order = ''
@@ -21,7 +28,12 @@ def home(request):
         products = paginator.page(1)
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
-    return render(request, 'core/home.html', { 'products': products, 'order': order, 'search': search })
+    return render(request, 'core/home.html', { 'products': products, 
+        'order': order, 
+        'search': search,
+        'positive_changes_today': positive_changes_today,
+        'negative_changes_today': negative_changes_today
+        })
     
 
 def price_history(request, company, product_key):

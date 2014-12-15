@@ -7,6 +7,69 @@
     <button type="submit">Buscar</button>
     <a href="/">Limpar Busca</a>
   </form>
+  {% if not search %}
+    <table style="width: 1024px">
+      <thead>
+        <tr>
+          <th class="negative">Top 10 Descontos Hoje</th>
+          <th class="positive">Top 10 Aumentos Hoje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width: 50%" valign="top" class="negative">
+            <table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Preço</th>
+                  <th>Variação %</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for product in positive_changes_today %}
+                  <tr>
+                    <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.display_price }}</td>
+                    <td>{{ product.display_price_percentage_change }}</td>
+                    <td><a href="{% url 'price_history' product.company.name product.product_key %}">Histórico</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </td>
+          <td style="width: 50%" valign="top" class="positive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Preço</th>
+                  <th>Variação %</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for product in negative_changes_today %}
+                  <tr>
+                    <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.display_price }}</td>
+                    <td>{{ product.display_price_percentage_change }}</td>
+                    <td><a href="{% url 'price_history' product.company.name product.product_key %}">Histórico</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  {% endif %}
+  <h2 style="text-align: center">Todos Produtos</h2>
 
   {% include 'includes/paginator.html' with paginator=products order=order search=search %}
 
