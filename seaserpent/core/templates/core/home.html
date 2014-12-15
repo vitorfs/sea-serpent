@@ -68,8 +68,11 @@
         </tr>
       </tbody>
     </table>
+    <h2 style="text-align: center">Todos Produtos</h2>
+  {% else %}
+    <h2 style="text-align: center">Exibindo resultados para <u>{{ search }}</u></h2>
   {% endif %}
-  <h2 style="text-align: center">Todos Produtos</h2>
+  
 
   {% include 'includes/paginator.html' with paginator=products order=order search=search %}
 
