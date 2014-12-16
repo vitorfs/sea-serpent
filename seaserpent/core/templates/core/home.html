@@ -2,125 +2,144 @@
 
 {% block main %}
 
-  <form method="get" class="search">
-    <input type="text" name="search" value="{% if search %}{{ search }}{% endif %}">
-    <button type="submit">Buscar</button>
-    <a href="/">Limpar Busca</a>
-  </form>
-  {% if not search %}
-    <table style="width: 1024px">
-      <thead>
-        <tr>
-          <th class="negative">Top 10 Descontos Hoje</th>
-          <th class="positive">Top 10 Aumentos Hoje</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="width: 50%" valign="top" class="negative">
-            <table>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form method="get" class="search">
+        <div class="input-group input-group-lg">
+          <input type="text" class="form-control" name="search" value="{% if search %}{{ search }}{% endif %}" placeholder="Buscar">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+            <a href="/" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span></a>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div role="tabpanel">
+        <ul class="nav nav-tabs"  style="margin: 20px 0">
+          <li role="presentation" class="active"><a href="#todos-produtos" aria-controls="todos-produtos" role="tab" data-toggle="tab">Todos Produtos</a></li>
+          <li role="presentation"><a href="#top10" aria-controls="top10" role="tab" data-toggle="tab">Top 10 Hoje</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="todos-produtos">
+            {% include 'includes/paginator.html' with paginator=products order=order search=search %}
+            <table class="table table-bordered table-condensed table-striped">
               <thead>
                 <tr>
-                  <th>Código</th>
-                  <th>Nome</th>
-                  <th>Preço</th>
-                  <th>Variação %</th>
-                  <th></th>
+                  <th><a href="?order={% if order == 'product_key' %}-{% endif %}product_key{% if search %}&search={{ search }}{% endif %}">Código</a></th>
+                  <th style="width: 300px"><a href="?order={% if order == 'name' %}-{% endif %}name{% if search %}&search={{ search }}{% endif %}">Nome</a></th>
+                  <th><a href="?order={% if order == 'price' %}-{% endif %}price{% if search %}&search={{ search }}{% endif %}">Preço</a></th>
+                  <th><a href="?order={% if order == 'price_percentage_change' %}-{% endif %}price_percentage_change{% if search %}&search={{ search }}{% endif %}">Variação %</a></th>
+                  <th><a href="?order={% if order == 'price_changes' %}-{% endif %}price_changes{% if search %}&search={{ search }}{% endif %}">Variações</a></th>
+                  <th><a href="?order={% if order == 'updated_at' %}-{% endif %}updated_at{% if search %}&search={{ search }}{% endif %}">Atualizado em</a></th>
+                  <th><a href="?order={% if order == 'visited_at' %}-{% endif %}visited_at{% if search %}&search={{ search }}{% endif %}">Visitado em</a></th>
+                  <th><a href="?order={% if order == 'company__url' %}-{% endif %}company__url{% if search %}&search={{ search }}{% endif %}">Site</a></th>
+                  <th><a href="javascript:void(0);">Histórico</a></th>
                 </tr>
               </thead>
               <tbody>
-                {% for product in positive_changes_today %}
-                  <tr>
-                    <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
+                {% for product in products %}
+                  {% if product.price_difference %}
+                    {% if product.price_difference > 0.0 %}
+                    <tr class="danger">
+                    {% elif product.price_difference < 0.0 %}
+                    <tr class="success">
+                    {% else %}
+                      <tr>
+                    {% endif %}
+                  {% else %}
+                    <tr>
+                {% endif %}
+                    <td style="text-align: right"><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.display_price }}</td>
-                    <td>{{ product.display_price_percentage_change }}</td>
-                    <td><a href="{% url 'price_history' product.company.name product.product_key %}">Histórico</a></td>
+                    <td style="text-align: right">{{ product.display_price }}</td>
+                    <td style="text-align: right">{{ product.display_price_percentage_change }}</td>
+                    <td style="text-align: center">{{ product.price_changes }}</td>
+                    <td style="text-align: right">{{ product.updated_at|date:"d/m/Y H:i:s" }}</td>
+                    <td style="text-align: right">{{ product.visited_at|date:"d/m/Y H:i:s" }}</td>
+                    <td>{{ product.company.name }}</td>
+                    <td style="text-align: center"><a href="{% url 'price_history' product.company.name product.product_key %}" class="btn-price-history"><i class="fa fa-history" style="font-size: 1.4em"></i></a></td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
-          </td>
-          <td style="width: 50%" valign="top" class="positive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Nome</th>
-                  <th>Preço</th>
-                  <th>Variação %</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for product in negative_changes_today %}
-                  <tr>
-                    <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.display_price }}</td>
-                    <td>{{ product.display_price_percentage_change }}</td>
-                    <td><a href="{% url 'price_history' product.company.name product.product_key %}">Histórico</a></td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <h2 style="text-align: center">Todos Produtos</h2>
-  {% else %}
-    <h2 style="text-align: center">Exibindo resultados para <u>{{ search }}</u></h2>
-  {% endif %}
-  
-
-  {% include 'includes/paginator.html' with paginator=products order=order search=search %}
-
-  <table>
-    <thead>
-      <tr>
-        <th><a href="?order={% if order == 'product_key' %}-{% endif %}product_key{% if search %}&search={{ search }}{% endif %}">Código</a></th>
-        <th><a href="?order={% if order == 'name' %}-{% endif %}name{% if search %}&search={{ search }}{% endif %}">Nome</a></th>
-        <th><a href="?order={% if order == 'price' %}-{% endif %}price{% if search %}&search={{ search }}{% endif %}">Preço</a></th>
-        <th><a href="?order={% if order == 'price_difference' %}-{% endif %}price_difference{% if search %}&search={{ search }}{% endif %}">Variação</a></th>
-        <th><a href="?order={% if order == 'price_percentage_change' %}-{% endif %}price_percentage_change{% if search %}&search={{ search }}{% endif %}">Variação %</a></th>
-        <th><a href="?order={% if order == 'price_changes' %}-{% endif %}price_changes{% if search %}&search={{ search }}{% endif %}">Variações</a></th>
-        <th><a href="?order={% if order == 'updated_at' %}-{% endif %}updated_at{% if search %}&search={{ search }}{% endif %}">Atualizado em</a></th>
-        <th><a href="?order={% if order == 'visited_at' %}-{% endif %}visited_at{% if search %}&search={{ search }}{% endif %}">Visitado em</a></th>
-        <th><a href="?order={% if order == 'status' %}-{% endif %}status{% if search %}&search={{ search }}{% endif %}">Status</a></th>
-        <th><a href="?order={% if order == 'status' %}-{% endif %}company__url{% if search %}&search={{ search }}{% endif %}">Site</a></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for product in products %}
-        {% if product.price_difference %}
-          {% if product.price_difference > 0.0 %}
-          <tr class="positive">
-          {% elif product.price_difference < 0.0 %}
-          <tr class="negative">
-          {% else %}
-            <tr>
-          {% endif %}
-        {% else %}
-          <tr>
-      {% endif %}
-          <td><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.display_price }}</td>
-          <td>{{ product.display_price_difference }}</td>
-          <td>{{ product.display_price_percentage_change }}</td>
-          <td>{{ product.price_changes }}</td>
-          <td>{{ product.updated_at|date:"d/m/Y H:i:s" }}</td>
-          <td>{{ product.visited_at|date:"d/m/Y H:i:s" }}</td>
-          <td>{{ product.status }}</td>
-          <td>{{ product.company.name }}</td>
-          <td><a href="{% url 'price_history' product.company.name product.product_key %}">Histórico</a></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  {% include 'includes/paginator.html' with paginator=products order=order search=search %}
-
+            {% include 'includes/paginator.html' with paginator=products order=order search=search %}
+          </div>
+          <div role="tabpanel" class="tab-pane" id="top10">
+            <div class="row">
+              <div class="col-md-6">
+                <h3 style="text-align: center">Caiu!</h3>
+                <table class="table table-condensed table-bordered">
+                  <thead>
+                    <tr class="success">
+                      <th>Código</th>
+                      <th style="width: 200px">Nome</th>
+                      <th>Preço</th>
+                      <th>Variação %</th>
+                      <th>Histórico</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for product in positive_changes_today %}
+                      <tr class="success">
+                        <td style="text-align: right"><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
+                        <td>{{ product.name }}</td>
+                        <td style="text-align: right">{{ product.display_price }}</td>
+                        <td style="text-align: right">{{ product.display_price_percentage_change }}</td>
+                        <td style="text-align: center"><a href="{% url 'price_history' product.company.name product.product_key %}" class="btn-price-history"><i class="fa fa-history" style="font-size: 1.4em"></i></a></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>      
+              </div>
+              <div class="col-md-6">
+                <h3 style="text-align: center">Aumentou!</h3>
+                <table class="table table-condensed table-bordered">
+                  <thead>
+                    <tr class="danger">
+                      <th>Código</th>
+                      <th style="width: 200px">Nome</th>
+                      <th>Preço</th>
+                      <th>Variação %</th>
+                      <th>Histórico</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for product in negative_changes_today %}
+                      <tr class="danger">
+                        <td style="text-align: right"><a href="{{ product.company.url }}/produto/{{ product.product_key }}" target="_blank">{{ product.product_key }}</a></td>
+                        <td>{{ product.name }}</td>
+                        <td style="text-align: right">{{ product.display_price }}</td>
+                        <td style="text-align: right">{{ product.display_price_percentage_change }}</td>
+                        <td style="text-align: center"><a href="{% url 'price_history' product.company.name product.product_key %}" class="btn-price-history"><i class="fa fa-history" style="font-size: 1.4em"></i></a></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="historico">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock main %}

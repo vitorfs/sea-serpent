@@ -1,53 +1,49 @@
-{% extends 'base.html' %}
+<div class="row" style="text-align: center; margin-bottom: 20px">
+  <div class="col-md-6 bg-success">
+    <h4>Menor Preço</h4>
+    <p>{{ lowest_price.display_price }}</p>
+  </div>
+  <div class="col-md-6 bg-danger">
+    <h4>Maior Preço</h4>
+    <p>{{ highest_price.display_price }}</p>
+  </div>
+</div>
 
-{% block main %}
-<a href="/" style="display: block; text-align: center">Voltar</a>
-<h2 style="text-align: center">{{ product.name }}</h2>
-
-<table style="margin-bottom: 20px">
-  <thead>
-    <tr>
-      <th class="negative">Menor Preço</th>
-      <th class="positive">Maior Preço</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="negative" style="text-align: center">{{ lowest_price.display_price }}</td>
-      <td class="positive" style="text-align: center">{{ highest_price.display_price }}</td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <tr>
-    <td valign="top">
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Preço</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for history in product.get_history %}
-            <tr>
-              <td>{{ history.date|date:"d/m/Y H:i:s" }}</td>
-              <td>{{ history.display_price }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </td>
-    <td valign="top">
-      <div id="price_chart" style="width: 800px; margin: 20px auto"></div>
-    </td>
-  </tr>
-</table>
-
-<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+<div class="row">
+  <div class="col-md-12">
+    <div role="tabpanel">
+      <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#grafico" aria-controls="grafico" role="tab" data-toggle="tab">Gráfico</a></li>
+        <li role="presentation"><a href="#tabela" aria-controls="tabela" role="tab" data-toggle="tab">Tabela</a></li>
+      </ul>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="grafico">
+          <div id="price_chart" style="width: 100%"></div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tabela">
+          <table class="table table-striped table-condensed">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Preço</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for history in product.get_history %}
+                <tr>
+                  <td>{{ history.date|date:"d/m/Y H:i:s" }}</td>
+                  <td>{{ history.display_price }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
-  google.setOnLoadCallback(drawChart);
+  google.load('visualization', '1.0', {'packages':['corechart'], "callback": drawChart});
 
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
@@ -64,8 +60,8 @@
     formatter.format(data, 1);
 
     var options = {
-      backgroundColor: '#F9F9F9',
       title: 'Histórico de Preços',
+      width: 560,
       hAxis: {title: 'Preço por Data',  titleTextStyle: { color: '#333'} },
       vAxis: {format:'R$###,###,###.00'}
     };
@@ -75,5 +71,3 @@
     chart.draw(data, options);
   }
 </script>
-
-{% endblock main %}
